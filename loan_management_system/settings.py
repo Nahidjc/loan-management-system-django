@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'loginApp',
     'loanApp',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
