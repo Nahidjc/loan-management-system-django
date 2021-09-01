@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block css_block %}
+
+{% endblock %}
+
+
+{% block body_block %}
+
+
+<div class="container">
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+        {{form.username}} <br>
+        {{form.email}} <br>
+        {{form.password1}} <br>
+        {{form.password2}} <br>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+
+</div>
+
+
+{% endblock %}
