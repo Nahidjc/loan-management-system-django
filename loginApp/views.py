@@ -55,3 +55,8 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
+
+
+@login_required(login_url='/account/login-customer')
+def edit_customer(request, pk):
+    return HttpResponseRedirect(reverse('home'))

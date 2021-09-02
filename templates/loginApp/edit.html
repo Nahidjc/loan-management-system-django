@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block body_block %}
+
+<form>
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="mb-4 row">
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example1" class="form-control" />
+                <label class="form-label" for="form6Example1">First name</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form6Example2" class="form-control" />
+                <label class="form-label" for="form6Example2">Last name</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Text input -->
+    <div class="mb-4 form-outline">
+        <input type="text" id="form6Example3" class="form-control" />
+        <label class="form-label" for="form6Example3">Company name</label>
+    </div>
+
+    <!-- Text input -->
+    <div class="mb-4 form-outline">
+        <input type="text" id="form6Example4" class="form-control" />
+        <label class="form-label" for="form6Example4">Address</label>
+    </div>
+
+    <!-- Email input -->
+    <div class="mb-4 form-outline">
+        <input type="email" id="form6Example5" class="form-control" />
+        <label class="form-label" for="form6Example5">Email</label>
+    </div>
+
+    <!-- Number input -->
+    <div class="mb-4 form-outline">
+        <input type="number" id="form6Example6" class="form-control" />
+        <label class="form-label" for="form6Example6">Phone</label>
+    </div>
+
+    <!-- Message input -->
+    <div class="mb-4 form-outline">
+        <textarea class="form-control" id="form6Example7" rows="4"></textarea>
+        <label class="form-label" for="form6Example7">Additional information</label>
+    </div>
+
+    <!-- Checkbox -->
+    <div class="mb-4 form-check d-flex justify-content-center">
+        <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />
+        <label class="form-check-label" for="form6Example8"> Update account details? </label>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="mb-4 btn btn-primary btn-block">Place order</button>
+</form>
+
+
+{% endblock %}
