@@ -48,36 +48,45 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Projects</a>
                     </li>
+
                 </ul>
                 <!-- Left links -->
             </div>
             <!-- Collapsible wrapper -->
 
+
+
             <!-- Right elements -->
             <div class="d-flex align-items-center">
-                <!-- Icon -->
-                <a class="text-reset me-3" href="#">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
 
 
-                <!-- Avatar -->
-                <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuLink"
-                    role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                    <img src="https://mdbootstrap.com/img/new/avatars/2.jpg" class="rounded-circle" height="25" alt=""
-                        loading="lazy" />
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+
+                <ul class="navbar-nav me-3 mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+
                     <li>
                         <a class="dropdown-item" href="#">My profile</a>
                     </li>
+
                     <li>
-                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="/account/logout-customer">Logout</a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" href="#">Logout</a>
+                    {% else %}
+                    <li class="nav-item me-2">
+                        <b> <a class="nav-link" href="/account/login-customer">Login</a></b>
+
+
                     </li>
+                    <li class="nav-item">
+                        <b> <a class="nav-link" href="/account/signup-customer">Signup</a></b>
+                    </li>
+
+                    {% endif %}
+
                 </ul>
+
+
+
             </div>
             <!-- Right elements -->
         </div>
