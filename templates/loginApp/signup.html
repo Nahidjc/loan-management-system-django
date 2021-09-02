@@ -11,43 +11,100 @@ User Sign Up
 {% endblock %}
 
 
+
+
 {% block body_block %}
 
+{% include 'navbar.html' %}
+<div class="container my-5">
 
-<div class="container">
+    <div class="row">
+        <div class="col-md-5 m-auto  shadow-lg  bg-body rounded p-5">
+            <h3 class="text-success text-center">Register </h3>
+            <form method="POST" class="my-5">
+
+                {% csrf_token %}
 
 
-    <form method="POST">
 
-        {% csrf_token %}
+                <div class="form-outline mb-4">
 
-        <div class="mb-3">
-            <label class="form-label">Username</label>
-            {% render_field form.username|attr:'required:true' class="form-control" %}
+                    {% render_field form.username|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Username</label>
+                </div>
+
+
+                <!-- Email address input -->
+
+                <div class="form-outline mb-4">
+
+                    {% render_field form.email|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Email address</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+
+                    {% render_field form.password1|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Password</label>
+                </div>
+                <!-- Repeat Password input -->
+                <div class="form-outline mb-4">
+
+                    {% render_field form.password2|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Repeat Password</label>
+                </div>
+
+
+                <!-- 2 column grid layout for inline styling -->
+                <div class="row mb-4  ">
+                    <div class="col">
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" checked />
+                            <label class="form-check-label"> Remember me </label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Simple link -->
+                        <a href="#!">Forgot password?</a>
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+
+                <!-- Register buttons -->
+                <div class="text-center">
+                    <p>Are you already a member? <a href="/account/login-customer">Sign in</a></p>
+                    <p>or sign up with:</p>
+                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                        <i class="fab fa-google"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                        <i class="fab fa-github"></i>
+                    </button>
+                </div>
+
+
+
+            </form>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Email address</label>
-            {% render_field form.email|attr:'required:true' class="form-control" %}
-        </div>
+    </div>
 
 
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            {% render_field form.password1|attr:'required:true' class="form-control" %}
-        </div>
 
-        <div class="mb-3">
-            <label class="form-label">Confirm Password</label>
-            {% render_field form.password2|attr:'required:true' class="form-control" %}
-        </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
 
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
 
 </div>
 
