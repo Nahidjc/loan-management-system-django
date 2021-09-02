@@ -58,5 +58,6 @@ def logout_view(request):
 
 
 @login_required(login_url='/account/login-customer')
-def edit_customer(request, pk):
-    return HttpResponseRedirect(reverse('home'))
+def edit_customer(request):
+    # return HttpResponseRedirect(reverse('home'))
+    return render(request, 'loginApp/edit.html', context={})
