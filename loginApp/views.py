@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import CustomerSignUpForm, CustomerLoginForm, UpdateCustomerForm
 from django.shortcuts import redirect
 from .models import CustomerSignUp
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -25,13 +25,11 @@ def sign_up_view(request):
             user_profile.save()
             print(user_profile)
             return HttpResponseRedirect(reverse('login_App:login_customer'))
-    return render(request, 'loginApp/signup.html', context={'form': form, 'customer': "Customer Register"})
+    return render(request, 'loginApp/signup.html', context={'form': form, 'user': "Customer Register"})
 
 
 def login_view(request):
     form = CustomerLoginForm()
-    # if request.method == 'GET':
-    #     print('Get Method')
     if request.method == 'POST':
         form = CustomerLoginForm(data=request.POST)
         # username = request.POST['username']
@@ -48,7 +46,7 @@ def login_view(request):
 
     else:
         print('Pai nai')
-    return render(request, 'loginApp/login.html', context={'form': form, 'customer': "Customer Login"})
+    return render(request, 'loginApp/login.html', context={'form': form, 'user': "Customer Login"})
 
 
 @login_required()
@@ -71,3 +69,27 @@ def edit_customer(request):
             return HttpResponseRedirect(reverse('home'))
     # return HttpResponseRedirect(reverse('home'))
     return render(request, 'loginApp/edit.html', context={'form': form})
+
+
+def superuser_login_view(request):
+    form = CustomerLoginForm()
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('home'))
+    else:
+        form = CustomerLoginForm(data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                if user.is_superuser:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('home'))
+                else:
+                    return HttpResponse('<h1>Account is not active</h1>')
+
+            else:
+                return redirect("/superuser-login/")
+
+    return render(request, 'admin/adminLogin.html', context={'form': form, 'user': "Admin Login"})
