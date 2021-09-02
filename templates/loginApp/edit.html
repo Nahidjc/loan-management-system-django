@@ -12,8 +12,8 @@
 
     <div class="row">
         <div class="p-5 m-auto my-5 rounded shadow-lg col-md-6 bg-body">
-
-            <form>
+            <h3 class="text-center text-success">Update Your Information </h3>
+            <form method="POST" class="my-5" enctype="multipart/form-data">
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                 <div class="mb-4 row">
                     <div class="col">
@@ -33,20 +33,27 @@
                 <!-- Text input -->
                 <div class="mb-4 form-outline">
                     <input type="text" id="form6Example3" class="form-control" />
-                    <label class="form-label" for="form6Example3">Company name</label>
+                    <label class="form-label" for="form6Example3">Designation</label>
                 </div>
 
                 <!-- Text input -->
                 <div class="mb-4 form-outline">
-                    <input type="text" id="form6Example4" class="form-control" />
-                    <label class="form-label" for="form6Example4">Address</label>
+                    <input type="text" class="form-control" />
+                    <label class="form-label">Address</label>
                 </div>
 
                 <!-- Email input -->
                 <div class="mb-4 form-outline">
-                    <input type="email" id="form6Example5" class="form-control" />
-                    <label class="form-label" for="form6Example5">Email</label>
+                    <input type="email" class="form-control" />
+                    <label class="form-label">Email</label>
                 </div>
+
+                <!-- Image Field  Input-->
+                <div class="mb-4 form-outline">
+
+                    <input type="file" class="form-control" id="customFile" />
+                </div>
+
 
                 <!-- Number input -->
                 <div class="mb-4 form-outline">
