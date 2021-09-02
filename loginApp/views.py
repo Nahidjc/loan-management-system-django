@@ -25,7 +25,7 @@ def sign_up_view(request):
             user_profile.save()
             print(user_profile)
             return HttpResponseRedirect(reverse('login_App:login_customer'))
-    return render(request, 'loginApp/signup.html', context={'form': form})
+    return render(request, 'loginApp/signup.html', context={'form': form, 'customer': "Customer Register"})
 
 
 def login_view(request):
@@ -48,7 +48,7 @@ def login_view(request):
 
     else:
         print('Pai nai')
-    return render(request, 'loginApp/login.html', context={'form': form})
+    return render(request, 'loginApp/login.html', context={'form': form, 'customer': "Customer Login"})
 
 
 @login_required()

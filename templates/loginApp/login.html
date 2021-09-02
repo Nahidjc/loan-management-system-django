@@ -13,29 +13,29 @@ User Login
 <div class="container my-5">
 
     <div class="row">
-        <div class="col-md-4 m-auto  shadow-lg  bg-body rounded p-5">
-            <h3 class="text-success text-center">Login </h3>
+        <div class="p-5 m-auto rounded shadow-lg col-md-4 bg-body">
+            <h3 class="text-center text-success">{{customer}} </h3>
             <form method="POST" class="my-5">
 
                 {% csrf_token %}
 
 
 
-                <div class="form-outline mb-4">
+                <div class="mb-4 form-outline">
 
                     {% render_field form.username|attr:'required:true' class="form-control" %}
                     <label class="form-label">Username</label>
                 </div>
 
                 <!-- Password input -->
-                <div class="form-outline mb-4">
+                <div class="mb-4 form-outline">
 
                     {% render_field form.password|attr:'required:true' class="form-control" %}
                     <label class="form-label">Password</label>
                 </div>
 
                 <!-- 2 column grid layout for inline styling -->
-                <div class="row mb-4  ">
+                <div class="mb-4 row ">
                     <div class="col">
                         <!-- Checkbox -->
                         <div class="form-check">
@@ -51,25 +51,25 @@ User Login
                 </div>
 
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+                <button type="submit" class="mb-4 btn btn-primary btn-block">Sign in</button>
 
                 <!-- Register buttons -->
                 <div class="text-center">
                     <p>Not a member? <a href="/account/signup-customer">Register</a></p>
                     <p>or sign up with:</p>
-                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-facebook-f"></i>
                     </button>
 
-                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-google"></i>
                     </button>
 
-                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-twitter"></i>
                     </button>
 
-                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-github"></i>
                     </button>
                 </div>

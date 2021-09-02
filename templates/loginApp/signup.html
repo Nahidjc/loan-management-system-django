@@ -19,15 +19,15 @@ User Sign Up
 <div class="container my-5">
 
     <div class="row">
-        <div class="col-md-5 m-auto  shadow-lg  bg-body rounded p-5">
-            <h3 class="text-success text-center">Register </h3>
+        <div class="p-5 m-auto rounded shadow-lg col-md-5 bg-body">
+            <h3 class="text-center text-success">{{customer}}</h3>
             <form method="POST" class="my-5">
 
                 {% csrf_token %}
 
 
 
-                <div class="form-outline mb-4">
+                <div class="mb-4 form-outline">
 
                     {% render_field form.username|attr:'required:true' class="form-control" %}
                     <label class="form-label">Username</label>
@@ -36,20 +36,20 @@ User Sign Up
 
                 <!-- Email address input -->
 
-                <div class="form-outline mb-4">
+                <div class="mb-4 form-outline">
 
                     {% render_field form.email|attr:'required:true' class="form-control" %}
                     <label class="form-label">Email address</label>
                 </div>
 
                 <!-- Password input -->
-                <div class="form-outline mb-4">
+                <div class="mb-4 form-outline">
 
                     {% render_field form.password1|attr:'required:true' class="form-control" %}
                     <label class="form-label">Password</label>
                 </div>
                 <!-- Repeat Password input -->
-                <div class="form-outline mb-4">
+                <div class="mb-4 form-outline">
 
                     {% render_field form.password2|attr:'required:true' class="form-control" %}
                     <label class="form-label">Repeat Password</label>
@@ -57,7 +57,7 @@ User Sign Up
 
 
                 <!-- 2 column grid layout for inline styling -->
-                <div class="row mb-4  ">
+                <div class="mb-4 row ">
                     <div class="col">
                         <!-- Checkbox -->
                         <div class="form-check">
@@ -73,25 +73,25 @@ User Sign Up
                 </div>
 
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+                <button type="submit" class="mb-4 btn btn-primary btn-block">Sign up</button>
 
                 <!-- Register buttons -->
                 <div class="text-center">
                     <p>Are you already a member? <a href="/account/login-customer">Sign in</a></p>
                     <p>or sign up with:</p>
-                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-facebook-f"></i>
                     </button>
 
-                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-google"></i>
                     </button>
 
-                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-twitter"></i>
                     </button>
 
-                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-github"></i>
                     </button>
                 </div>

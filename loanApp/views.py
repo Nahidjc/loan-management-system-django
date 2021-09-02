@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/account/login-customer')
 def home(request):
     print('This is a home page')
-    return render(request, 'admin/adminbase.html', context={})
+    return render(request, 'home.html', context={})
 
 
 def LoanPage(request):
