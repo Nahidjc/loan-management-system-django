@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from .forms import CustomerSignUpForm, CustomerLoginForm
+from .forms import CustomerSignUpForm, CustomerLoginForm, UpdateCustomerForm
 from django.shortcuts import redirect
 from .models import CustomerSignUp
 from django.http import HttpResponseRedirect
@@ -59,5 +59,15 @@ def logout_view(request):
 
 @login_required(login_url='/account/login-customer')
 def edit_customer(request):
+    customer = CustomerSignUp.objects.get(user=request.user)
+    form = UpdateCustomerForm(instance=customer)
+    if request.method == 'POST':
+        print(form)
+        form = UpdateCustomerForm(
+            request.POST, request.FILES, instance=customer)
+        if form.is_valid:
+            customer = form.save(commit=False)
+            customer.save()
+            return HttpResponseRedirect(reverse('home'))
     # return HttpResponseRedirect(reverse('home'))
-    return render(request, 'loginApp/edit.html', context={})
+    return render(request, 'loginApp/edit.html', context={'form': form})

@@ -33,12 +33,12 @@
             <!-- Collapsible wrapper -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Navbar brand -->
-                <a class="navbar-brand mt-2 mt-lg-0" href="#">
+                <a class="mt-2 navbar-brand mt-lg-0" href="#">
                     <img src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png" height="15" alt=""
                         loading="lazy" />
                 </a>
                 <!-- Left links -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="mb-2 navbar-nav me-auto mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="#">Dashboard</a>
                     </li>
@@ -61,11 +61,11 @@
 
 
 
-                <ul class="navbar-nav me-3 mb-2 mb-lg-0">
+                <ul class="mb-2 navbar-nav me-3 mb-lg-0">
                     {% if user.is_authenticated %}
 
                     <li>
-                        <a class="dropdown-item" href="#">My profile</a>
+                        <a class="dropdown-item" href="{% url 'login_App:edit-customer'%}">Edit Info</a>
                     </li>
 
                     <li>

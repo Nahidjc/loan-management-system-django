@@ -14,17 +14,19 @@
         <div class="p-5 m-auto my-5 rounded shadow-lg col-md-6 bg-body">
             <h3 class="text-center text-success">Update Your Information </h3>
             <form method="POST" class="my-5" enctype="multipart/form-data">
+                {% csrf_token %}
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                 <div class="mb-4 row">
                     <div class="col">
                         <div class="form-outline">
-                            <input type="text" id="form6Example1" class="form-control" />
+                            {% render_field form.first_name|attr:'required:true' type="text" class="form-control" %}
                             <label class="form-label" for="form6Example1">First name</label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-outline">
-                            <input type="text" id="form6Example2" class="form-control" />
+                            {% render_field form.last_name|attr:'required:true' type="text" class="form-control" %}
+
                             <label class="form-label" for="form6Example2">Last name</label>
                         </div>
                     </div>
@@ -32,45 +34,50 @@
 
                 <!-- Text input -->
                 <div class="mb-4 form-outline">
-                    <input type="text" id="form6Example3" class="form-control" />
+                    {% render_field form.designation|attr:'required:true' type="text" class="form-control" %}
+
                     <label class="form-label" for="form6Example3">Designation</label>
                 </div>
 
                 <!-- Text input -->
                 <div class="mb-4 form-outline">
+                    {% render_field form.address|attr:'required:false' class="form-control" %}
                     <input type="text" class="form-control" />
                     <label class="form-label">Address</label>
                 </div>
 
                 <!-- Email input -->
                 <div class="mb-4 form-outline">
-                    <input type="email" class="form-control" />
+                    {% render_field form.email|attr:'required:true' type="email" class="form-control" %}
+
                     <label class="form-label">Email</label>
                 </div>
 
                 <!-- Image Field  Input-->
                 <div class="mb-4 form-outline">
-
-                    <input type="file" class="form-control" id="customFile" />
+                    {% render_field form.profile_picture|attr:'required:false' type="file" class="form-control" %}
+                    <!-- <input  class="form-control" id="customFile" /> -->
                 </div>
 
 
                 <!-- Number input -->
                 <div class="mb-4 form-outline">
-                    <input type="number" id="form6Example6" class="form-control" />
-                    <label class="form-label" for="form6Example6">Phone</label>
+                    {% render_field form.phone|attr:'required:true' type="number" class="form-control" %}
+
+                    <label class="form-label">Phone</label>
                 </div>
 
                 <!-- Message input -->
                 <div class="mb-4 form-outline">
-                    <textarea class="form-control" id="form6Example7" rows="4"></textarea>
-                    <label class="form-label" for="form6Example7">Additional information</label>
+                    {% render_field form.information|attr:'required:true' rows="4" class="form-control" %}
+
+                    <label class="form-label">Additional information</label>
                 </div>
 
                 <!-- Checkbox -->
                 <div class="mb-4 form-check d-flex justify-content-center">
-                    <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />
-                    <label class="form-check-label" for="form6Example8"> Update account details? </label>
+                    <input class="form-check-input me-2" type="checkbox" value="" checked />
+                    <label class="form-check-label"> Update account details? </label>
                 </div>
 
                 <!-- Submit button -->

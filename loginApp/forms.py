@@ -26,6 +26,8 @@ class CustomerLoginForm(AuthenticationForm):
 
 
 class UpdateCustomerForm(forms.ModelForm):
+    # information = forms.CharField(widget=forms.Textarea(attrs={"rows": 4, "cols": 10})
+    information = forms.CharField(widget=forms.Textarea)
 
     class Meta:
         model = CustomerSignUp
