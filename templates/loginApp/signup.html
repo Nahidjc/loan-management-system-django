@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
+{%load static%}
+
+{% block title_block %}
+User Sign Up
+{% endblock %}
 
 {% block css_block %}
 
@@ -14,11 +20,33 @@
     <form method="POST">
 
         {% csrf_token %}
-        {{form.username}} <br>
-        {{form.email}} <br>
-        {{form.password1}} <br>
-        {{form.password2}} <br>
-        <button type="submit" class="btn btn-primary">Sign Up</button>
+
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            {% render_field form.username|attr:'required:true' class="form-control" %}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email address</label>
+            {% render_field form.email|attr:'required:true' class="form-control" %}
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            {% render_field form.password1|attr:'required:true' class="form-control" %}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Confirm Password</label>
+            {% render_field form.password2|attr:'required:true' class="form-control" %}
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
     </form>
 
 </div>
