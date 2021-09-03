@@ -5,6 +5,8 @@ from django.shortcuts import redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import user_passes_test
 # Create your views here.
 # Create your views here.
 
@@ -38,5 +40,7 @@ def superuser_login_view(request):
     return render(request, 'admin/adminLogin.html', context={'form': form, 'user': "Admin Login"})
 
 
+# @user_passes_test(lambda u: u.is_superuser)
+@staff_member_required(login_url='/manager/admin-login')
 def dashboard(request):
     return render(request, 'admin/dashboard.html', context={})
