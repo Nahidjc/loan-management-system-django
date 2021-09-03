@@ -7,5 +7,5 @@ app_name = 'managerApp'
 urlpatterns = [
     path('admin-login/', views.superuser_login_view, name='admin-login'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('add-loan-category', views.add_category, name='add_category'),
+    path('add-category/', views.add_category, name='add_category'),
 ]

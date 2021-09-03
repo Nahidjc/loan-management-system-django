@@ -1,0 +1,57 @@
+{% extends 'admin/adminbase.html' %}
+
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title_block %}
+
+{% endblock %}
+
+
+{% block body_block %}
+
+
+<div class="container my-5 mx-auto" style="position: absolute;top: auto; ">
+
+    <div class="row my-5">
+        <div class="p-5 m-auto rounded shadow-lg col-sm-6 col-md-4 bg-body">
+            <h3 class="text-center text-success">Add Category Name</h3>
+            </h3>
+            <form method="POST" class="my-5">
+
+                {% csrf_token %}
+
+                {% if error %}
+                <div class="my-2">
+                    <div class="row">
+                        <div class="m-auto col">
+                            <div class="text-center alert alert-danger" role="alert">
+                                {{error}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+
+                <div class="mb-4 form-outline">
+                    {% render_field form.loan_name|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Loan Name</label>
+                </div>
+                <button type="submit" class="mb-4 btn btn-primary btn-block">Add Category</button>
+
+        </div>
+    </div>
+    </form>
+</div>
+</div>
+
+
+
+
+
+</div>
+
+{% include "footer.html" %}
+
+{% endblock %}

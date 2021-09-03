@@ -54,5 +54,5 @@ def add_category(request):
         form = LoanCategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('admin-view-category')
-    return render(request, 'insurance/admin_add_category.html', {'form': form})
+            return redirect('managerApp:dashboard')
+    return render(request, 'admin/admin_add_category.html', {'form': form})
