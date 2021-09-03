@@ -14,11 +14,23 @@ User Login
 
     <div class="row">
         <div class="p-5 m-auto rounded shadow-lg col-md-4 bg-body">
-            <h3 class="text-center text-success">{{user}} </h3>
+            <h3 class="text-center text-success">Admin Login</h3>
+            </h3>
             <form method="POST" class="my-5">
 
                 {% csrf_token %}
 
+                {% if error %}
+                <div class="my-2">
+                    <div class="row">
+                        <div class="m-auto col">
+                            <div class="text-center alert alert-danger" role="alert">
+                                {{error}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
 
 
                 <div class="mb-4 form-outline">
@@ -55,8 +67,8 @@ User Login
 
                 <!-- Register buttons -->
                 <div class="text-center">
-                    <p>Not a member? <a href="/account/signup-customer">Register</a></p>
-                    <p>or sign up with:</p>
+                    <!-- <p>Not a member? <a href="/account/signup-customer">Register</a></p> -->
+                    <!-- <p>or sign up with:</p> -->
                     <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-facebook-f"></i>
                     </button>

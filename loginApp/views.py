@@ -69,27 +69,3 @@ def edit_customer(request):
             return HttpResponseRedirect(reverse('home'))
     # return HttpResponseRedirect(reverse('home'))
     return render(request, 'loginApp/edit.html', context={'form': form})
-
-
-def superuser_login_view(request):
-    form = CustomerLoginForm()
-    if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('home'))
-    else:
-        form = CustomerLoginForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-
-            if user is not None:
-                if user.is_superuser:
-                    login(request, user)
-                    return HttpResponseRedirect(reverse('home'))
-                else:
-                    return HttpResponse('<h1>Account is not active</h1>')
-
-            else:
-                return redirect("/superuser-login/")
-
-    return render(request, 'admin/adminLogin.html', context={'form': form, 'user': "Admin Login"})

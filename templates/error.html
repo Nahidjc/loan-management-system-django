@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+Error
+{% endblock %}
+
+{% block body_block %}
+{% include 'navbar.html' %}
+
+<div class="my-5 conatiner">
+    <div class="row">
+        <div class="m-auto col-md-4">
+            <div class="text-center alert alert-danger" role="alert">
+                {{error}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html'%}
+
+{% endblock %}
