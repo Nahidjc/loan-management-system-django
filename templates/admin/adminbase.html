@@ -36,7 +36,7 @@
                 <div> <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span
                             class="nav_logo-name">BBBootstrap</span> </a>
                     <div class="nav_list">
-                        <a href="#" class="nav_link active">
+                        <a href="/manager/dashboard" class="nav_link active">
                             <i class='bx bx-grid-alt nav_icon'></i>
                             <span class="nav_name">Dashboard</span> </a>
                         <a href="#" class="nav_link">
@@ -63,13 +63,15 @@
         </div>
         <!--Container Main start-->
         <div class="height-100 bg-light">
-            <h4>Main Components</h4>
+            {% block body_block %}
+
+
+
+            {% endblock %}
         </div>
         <!--Container Main end-->
 
-        {% block body_block %}
 
-        {% endblock %}
         <script src="{% static 'js/admin.js' %}"></script>
     </body>
 

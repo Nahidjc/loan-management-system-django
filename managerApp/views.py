@@ -28,7 +28,7 @@ def superuser_login_view(request):
 
                     if user.is_superuser:
                         login(request, user)
-                        return HttpResponseRedirect(reverse('home'))
+                        return HttpResponseRedirect(reverse('managerApp:dashboard'))
                     else:
                         return render(request, 'admin/adminLogin.html', context={'form': form, 'error': "You are not Super User"})
 
@@ -39,4 +39,4 @@ def superuser_login_view(request):
 
 
 def dashboard(request):
-    pass
+    return render(request, 'admin/dashboard.html', context={})
