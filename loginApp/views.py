@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 
 
 def sign_up_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('home'))
     form = CustomerSignUpForm()
     if request.method == 'POST':
         form = CustomerSignUpForm(request.POST)

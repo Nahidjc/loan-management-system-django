@@ -14,7 +14,8 @@ class loanCategory(models.Model):
 
 
 class loanRequest(models.Model):
-    customer = models.ForeignKey(CustomerSignUp, on_delete=models.CASCADE)
+    customer = models.ForeignKey(
+        CustomerSignUp, on_delete=models.CASCADE, related_name='loan_customer')
     category = models.ForeignKey(
         loanCategory, on_delete=models.CASCADE, null=True)
     request_date = models.DateField(auto_now_add=True)
