@@ -18,8 +18,9 @@ class loanRequest(models.Model):
     # category = models.ForeignKey(loanCategory, on_delete=models.CASCADE)
     request_date = models.DateField(auto_now_add=True)
     reason = models.CharField(max_length=250)
-    status = models.CharField(max_length=100, default='Pending')
+    status = models.CharField(max_length=100, default='pending')
     amount = models.PositiveIntegerField(default=0)
+    year = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return self.customer.user
+        return self.customer.user.username

@@ -9,6 +9,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
 from loanApp.models import loanCategory
 from .forms import LoanCategoryForm
+from loginApp.models import CustomerSignUp
 # Create your views here.
 # Create your views here.
 
@@ -48,6 +49,7 @@ def dashboard(request):
     return render(request, 'admin/dashboard.html', context={})
 
 
+@staff_member_required(login_url='/manager/admin-login')
 def add_category(request):
     form = LoanCategoryForm()
     if request.method == 'POST':
@@ -56,3 +58,10 @@ def add_category(request):
             form.save()
             return redirect('managerApp:dashboard')
     return render(request, 'admin/admin_add_category.html', {'form': form})
+
+
+@staff_member_required(login_url='/manager/admin-login')
+def total_users(request):
+    users = CustomerSignUp.objects.all()
+
+    return render(request, 'admin/customer.html', context={'users': users})

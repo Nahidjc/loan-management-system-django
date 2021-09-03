@@ -1,0 +1,73 @@
+{% extends 'admin/adminbase.html' %}
+
+{% load static %}
+
+{% block css_block %}
+<style>
+
+</style>
+
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <h1 class="text-center text-primary">Total Customer Loan Management Application</h1>
+    <div class="users my-5">
+
+
+
+        <table class="table table-light table-hover table-bordered table-striped text-center">
+            <thead class="bg-dark ">
+                <tr class="text-dark ">
+                    <th scope="col">SL</th>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Picture</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <th scope="row">1</th>
+                    <td>{{user.id}}</td>
+                    <td>{{user}}</td>
+
+                    <td> <img src="/media/{{user.profile_picture}}" alt="Profile Pic" height="40px" width="40px" />
+                    </td>
+
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.last_name}}</td>
+                    <td>{{user.email}}</td>
+
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm px-3">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}
