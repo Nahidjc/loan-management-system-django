@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import user_passes_test
 from loanApp.models import loanCategory
 from .forms import LoanCategoryForm
 from loginApp.models import CustomerSignUp
+from django.contrib.auth.models import User
 # Create your views here.
 # Create your views here.
 
@@ -65,3 +66,12 @@ def total_users(request):
     users = CustomerSignUp.objects.all()
 
     return render(request, 'admin/customer.html', context={'users': users})
+
+
+@staff_member_required(login_url='/manager/admin-login')
+def user_remove(request, pk):
+    CustomerSignUp.objects.get(id=pk).delete()
+    user = User.objects.get(id=pk)
+    user.delete()
+    return HttpResponseRedirect('/manager/users')
+    # return redirect('managerApp:users')

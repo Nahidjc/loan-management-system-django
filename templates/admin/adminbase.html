@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <title>Admin Dashboard</title>
+    {% block block_js %}
+
+    {% endblock %}
 
     {% block css_block %}
 
@@ -82,7 +85,7 @@
         </div>
         <!--Container Main end-->
 
-
+        <script src="{% static 'js/modal.js' %}"></script>
         <script src="{% static 'js/admin.js' %}"></script>
         <!-- MDB -->
         <script type="text/javascript"

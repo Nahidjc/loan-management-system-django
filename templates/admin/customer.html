@@ -2,6 +2,14 @@
 
 {% load static %}
 
+
+{% block block_js %}
+<script>
+
+</script>
+{% endblock %}
+
+
 {% block css_block %}
 <style>
 
@@ -46,9 +54,13 @@
                     <td>{{user.email}}</td>
 
                     <td>
-                        <button type="button" class="btn btn-danger btn-sm px-3">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
+                        <a href="{% url 'managerApp:user_remove' user.id %}">
+                            <button type="button" id="btn-confirm" class="btn btn-danger btn-sm px-3">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+
+                        </a>
+
                     </td>
 
 
@@ -68,6 +80,7 @@
 
 
 </div>
+
 
 
 {% endblock %}
