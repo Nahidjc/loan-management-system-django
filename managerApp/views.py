@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
+from loanApp.models import loanCategory
+from .forms import LoanCategoryForm
 # Create your views here.
 # Create your views here.
 
@@ -44,3 +46,13 @@ def superuser_login_view(request):
 @staff_member_required(login_url='/manager/admin-login')
 def dashboard(request):
     return render(request, 'admin/dashboard.html', context={})
+
+
+def add_category(request):
+    form = LoanCategoryForm()
+    if request.method == 'POST':
+        form = LoanCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('admin-view-category')
+    return render(request, 'insurance/admin_add_category.html', {'form': form})
