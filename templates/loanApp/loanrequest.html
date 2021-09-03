@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title_block %}
+Loan Request
+{% endblock %}
+
+
+{% block body_block %}
+
+{% include 'navbar.html' %}
+<div class="container my-5">
+
+    <div class="row mb-5">
+        <div class="p-5 m-auto rounded shadow-lg col-md-6 bg-body">
+            <h3 class="text-center text-success"> Request For Loan</h3>
+            </h3>
+            <form method="POST" class="my-5">
+
+                {% csrf_token %}
+
+
+                <div class="mb-4 input-group">
+                    <div class="input-group-text">Loan Category</div>
+                    {% render_field form.category|attr:'required:true' class="form-control" %}
+                </div>
+
+
+
+
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.reason|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Reason For Loan</label>
+                </div>
+
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.amount|attr:'required:true' type="number" class="form-control" %}
+                    <label class="form-label">Request Amount</label>
+                </div>
+
+
+
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.year|attr:'required:true' type="number" class="form-control" %}
+                    <label class="form-label">How many year for loan?</label>
+                </div>
+
+                <!-- 2 column grid layout for inline styling -->
+                <div class="mb-4 row ">
+                    <div class="col">
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" checked />
+                            <label class="form-check-label"> Remember me </label>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <button type="submit" class="mb-4 btn btn-primary btn-block">Send Request</button>
+
+
+
+
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+{% include "footer.html" %}
+
+{% endblock %}

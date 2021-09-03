@@ -40,14 +40,20 @@
                 <!-- Left links -->
                 <ul class="mb-2 navbar-nav me-auto mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Dashboard</a>
+                        <a class="nav-link" href="#">HOME</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Team</a>
                     </li>
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Projects</a>
+                        <a class="nav-link" href="#">Loan History</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Transactions</a>
+                    </li>
+                    {% endif %}
+
 
                 </ul>
                 <!-- Left links -->
@@ -55,6 +61,9 @@
                 <ul class="mb-2 navbar-nav ms-auto mb-lg-0">
                     {% if user.is_authenticated %}
 
+                    <li>
+                        <a class="dropdown-item" href="{% url 'loanApp:loan_request'%}">Apply Loan</a>
+                    </li>
                     <li>
                         <a class="dropdown-item" href="{% url 'login_App:edit-customer'%}">Edit Info</a>
                     </li>

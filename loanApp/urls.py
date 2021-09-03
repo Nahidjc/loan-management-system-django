@@ -2,8 +2,8 @@ from django.urls import path
 from loanApp import views
 
 
-app_name = 'loginApp'
+app_name = 'loanApp'
 urlpatterns = [
-    path('loanpage/', views.LoanPage, name='loanpage'),
+    path('loan-request/', views.LoanRequest, name='loan_request'),
 
 ]
