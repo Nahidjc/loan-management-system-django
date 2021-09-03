@@ -10,4 +10,5 @@ urlpatterns = [
     path('add-category/', views.add_category, name='add_category'),
     path('users/', views.total_users, name='total_users'),
     path('user-remove/<int:pk>/', views.user_remove, name='user_remove'),
+    path('loan-request-user/', views.loan_request, name='loan_request'),
 ]

@@ -1,0 +1,98 @@
+{% extends 'admin/adminbase.html' %}
+
+{% load static %}
+
+
+{% block block_js %}
+<script>
+
+</script>
+{% endblock %}
+
+
+{% block css_block %}
+<style>
+
+</style>
+
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <h1 class="text-center text-primary">Total Customer Loan Request</h1>
+    <div class="users my-5">
+
+
+
+        <table class="table table-light table-hover table-bordered table-striped text-center">
+            <thead class="bg-dark ">
+                <tr class="text-dark ">
+                    <th scope="col">SL</th>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Request Amount</th>
+                    <th scope="col">Request Date</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Email</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{user.customer.id}}</td>
+                    <td>{{user}}</td>
+                    <td>
+                        <button type="button" class="btn btn-info text-white btn-sm px-3">
+                            {{user.status}}
+                        </button>
+                    </td>
+                    <!-- <td> <img src="/media/{{user.profile_picture}}" alt="Profile Pic" height="40px" width="40px" />
+                    </td> -->
+
+                    <td>{{user.amount}} Tk</td>
+                    <td>{{user.request_date}}</td>
+                    <td>{{user.year}}</td>
+                    <td>{{user.customer.user.email}}</td>
+
+                    <td>
+                        <a href="#">
+                            <button type="button" id="btn-confirm" class="btn btn-success btn-sm px-3">
+                                <i class="fas fa-check"></i>
+                            </button>
+
+                        </a>
+                        <a href="#">
+                            <button type="button" id="btn-confirm" class="btn btn-danger btn-sm px-3">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+
+                        </a>
+
+                    </td>
+
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}

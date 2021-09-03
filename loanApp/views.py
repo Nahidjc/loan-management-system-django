@@ -13,7 +13,7 @@ def home(request):
     return render(request, 'home.html', context={})
 
 
-@login_required()
+@login_required(login_url='/account/login-customer')
 def LoanRequest(request):
     print(request.user)
     form = LoanRequestForm()

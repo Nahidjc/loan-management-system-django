@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
-from loanApp.models import loanCategory
+from loanApp.models import loanCategory, loanRequest
 from .forms import LoanCategoryForm
 from loginApp.models import CustomerSignUp
 from django.contrib.auth.models import User
@@ -75,3 +75,8 @@ def user_remove(request, pk):
     user.delete()
     return HttpResponseRedirect('/manager/users')
     # return redirect('managerApp:users')
+
+
+def loan_request(request):
+    users = loanRequest.objects.all()
+    return render(request, 'admin/request_user.html', context={'users': users, 'i': 1})
