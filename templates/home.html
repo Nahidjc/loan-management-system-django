@@ -1,14 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
 
+{% block css_block %}
+
+
+<style>
+    .row {
+        height: 80vh;
+
+    }
+</style>
+{% endblock %}
 
 {% block body_block %}
 
 {% include 'navbar.html' %}
 
-<h1>This is Home Page</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 m-auto">
+            <img src="{% static 'images/loan.jpg'%}" class="img-fluid mx-auto" alt="" srcset="">
 
+        </div>
+        <div class="col-md-6 m-auto">
+            <div class="d-flex justify-content-center align-items-center">
+                <button type="button" class="btn btn-info btn-rounded m-2">Apply Loan</button>
+                or
+                <button type="button" class="btn btn-info btn-rounded ms-2">Register</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% include "footer.html" %}
 {% endblock %}
-
-
-
-</html>

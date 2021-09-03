@@ -3,9 +3,9 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-@login_required(login_url='/account/login-customer')
+# @login_required(login_url='/account/login-customer')
 def home(request):
-    print('This is a home page')
+
     return render(request, 'home.html', context={})
 
 
