@@ -19,6 +19,7 @@ class loanRequest(models.Model):
     category = models.ForeignKey(
         loanCategory, on_delete=models.CASCADE, null=True)
     request_date = models.DateField(auto_now_add=True)
+    status_date = models.DateTimeField(null=True, blank=True, default=None)
     reason = models.TextField()
     status = models.CharField(max_length=100, default='pending')
     amount = models.PositiveIntegerField(default=0)

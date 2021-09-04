@@ -85,8 +85,14 @@ def loan_request(request):
 
 
 def approved_request(request, id):
+    today = date.today()
+    status_date = today.strftime("%B %d, %Y")
+
+    loan_obj = approved_customer = loanRequest.objects.get(id=id)
+    loan_obj.status_date = status_date
+    loan_obj.save(commit=True)
+
     approved_customer = loanRequest.objects.get(id=id).customer
-    print(approved_customer)
     loanRequest.objects.filter(id=id).update(status='approved')
     loanrequest = loanRequest.objects.filter(status='pending')
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
@@ -107,9 +113,5 @@ def approved_loan(request):
 
 
 def rejected_loan(request):
-
-    today = date.today()
-    status_date = today.strftime("%B %d, %Y")
-    print(status_date)
     rejectedLoan = loanRequest.objects.filter(status='rejected')
     return render(request, 'admin/approved_loan.html', context={'rejectedLoan': rejectedLoan})
