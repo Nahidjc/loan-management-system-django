@@ -29,6 +29,7 @@
             <thead class="bg-dark ">
                 <tr class="text-dark ">
                     <th scope="col">SL</th>
+                    <th scope="col">Loan ID</th>
                     <th scope="col">User ID</th>
                     <th scope="col">Username</th>
                     <th scope="col">Status</th>
@@ -41,27 +42,29 @@
                 </tr>
             </thead>
             <tbody>
-                {% for user in users %}
+                {% for loan in loanrequest %}
 
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td>{{user.customer.id}}</td>
-                    <td>{{user}}</td>
+                    <td>{{loan.id}}</td>
+                    <td>{{loan.customer.id}}</td>
+                    <td>{{loan}}</td>
                     <td>
                         <button type="button" class="btn btn-info text-white btn-sm px-3">
-                            {{user.status}}
+                            {{loan.status}}
                         </button>
                     </td>
                     <!-- <td> <img src="/media/{{user.profile_picture}}" alt="Profile Pic" height="40px" width="40px" />
                     </td> -->
 
-                    <td>{{user.amount}} Tk</td>
-                    <td>{{user.request_date}}</td>
-                    <td>{{user.year}}</td>
-                    <td>{{user.customer.user.email}}</td>
+                    <td>{{loan.amount}} Tk</td>
+                    <td>{{loan.request_date}}</td>
+                    <td>{{loan.year}}</td>
+                    <td>{{loan.customer.user.email}}</td>
 
                     <td>
-                        <a href="#">
+
+                        <a href="{% url 'managerApp:approved_loan' loan.id  %}">
                             <button type="button" id="btn-confirm" class="btn btn-success btn-sm px-3">
                                 <i class="fas fa-check"></i>
                             </button>

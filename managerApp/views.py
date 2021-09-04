@@ -78,5 +78,13 @@ def user_remove(request, pk):
 
 
 def loan_request(request):
-    users = loanRequest.objects.filter(status='pending')
-    return render(request, 'admin/request_user.html', context={'users': users, 'i': 1})
+    loanrequest = loanRequest.objects.filter(status='pending')
+    return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
+
+
+def approved_loan(request, id):
+    approved_customer = loanRequest.objects.get(id=id).customer
+    print(approved_customer)
+    loanRequest.objects.filter(id=id).update(status='approved')
+    loanrequest = loanRequest.objects.filter(status='pending')
+    return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
