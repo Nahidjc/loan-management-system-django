@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
-from loanApp.models import loanCategory, loanRequest
+from loanApp.models import loanCategory, loanRequest, CustomerLoan
 from .forms import LoanCategoryForm
 from loginApp.models import CustomerSignUp
 from django.contrib.auth.models import User
@@ -91,8 +91,18 @@ def approved_request(request, id):
     loan_obj = loanRequest.objects.get(id=id)
     loan_obj.status_date = status_date
     loan_obj.save()
+    year = loan_obj.year
 
-    # approved_customer = loanRequest.objects.get(id=id).customer
+    # request customer
+    approved_customer = loanRequest.objects.get(id=id).customer
+    # CustomerLoan object create
+    save_loan = CustomerLoan()
+
+    save_loan.customer = approved_customer
+    save_loan.total_loan = int(loan_obj.amount)
+    save_loan.payable_loan = int(loan_obj.amount)+int(loan_obj.amount)*0.2
+    save_loan.save()
+
     loanRequest.objects.filter(id=id).update(status='approved')
     loanrequest = loanRequest.objects.filter(status='pending')
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
