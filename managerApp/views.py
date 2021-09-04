@@ -88,9 +88,9 @@ def approved_request(request, id):
     today = date.today()
     status_date = today.strftime("%B %d, %Y")
 
-    loan_obj = approved_customer = loanRequest.objects.get(id=id)
+    loan_obj = loanRequest.objects.get(id=id)
     loan_obj.status_date = status_date
-    loan_obj.save(commit=True)
+    loan_obj.save()
 
     approved_customer = loanRequest.objects.get(id=id).customer
     loanRequest.objects.filter(id=id).update(status='approved')
