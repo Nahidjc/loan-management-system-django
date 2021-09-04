@@ -6,28 +6,38 @@ from .models import CustomerSignUp
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 # Create your views here.
 
 
 def sign_up_view(request):
+    error = ''
     if request.user.is_authenticated:
+        print("Already login")
         return HttpResponseRedirect(reverse('home'))
+
     form = CustomerSignUpForm()
     if request.method == 'POST':
+        print("sign up korte chay")
         form = CustomerSignUpForm(request.POST)
+        # print(form.cleaned_data['username'])
         if form.is_valid():
             user = form.save()
             print(user)
             print("valid form")
-            # username = form.cleaned_data['username']
-            # email = form.cleaned_data['email']
-            # password1 = form.cleaned_data['password1']
-            # password2 = form.cleaned_data['password2']
             user_profile = CustomerSignUp(user=user)
             user_profile.save()
             print(user_profile)
             return HttpResponseRedirect(reverse('login_App:login_customer'))
-    return render(request, 'loginApp/signup.html', context={'form': form, 'user': "Customer Register"})
+
+        else:
+            if User.objects.filter(username=request.POST['username']).exists():
+                error = 'customer already exists'
+
+            else:
+                error = 'both password must be same'
+
+    return render(request, 'loginApp/signup.html', context={'form': form, 'user': "Customer Register", 'error': error})
 
 
 def login_view(request):
@@ -46,8 +56,8 @@ def login_view(request):
                 login(request, user)
                 return HttpResponseRedirect(reverse('home'))
 
-    else:
-        print('Pai nai')
+        else:
+            return render(request, 'loginApp/login.html', context={'form': form, 'user': "Customer Login", 'error': 'Invalid username or password'})
     return render(request, 'loginApp/login.html', context={'form': form, 'user': "Customer Login"})
 
 
