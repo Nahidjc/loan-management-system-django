@@ -20,7 +20,7 @@
 {% block body_block %}
 
 <div class="container">
-    <h1 class="text-center text-primary">Total Customer Loan Request</h1>
+    <h1 class="text-center text-primary">Approved Loan</h1>
     <div class="users my-5">
 
 
@@ -33,16 +33,16 @@
                     <th scope="col">User ID</th>
                     <th scope="col">Username</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Request Amount</th>
+                    <th scope="col">Amount</th>
                     <th scope="col">Request Date</th>
                     <th scope="col">Year</th>
-                    <th scope="col">Email</th>
-                    <th>Action</th>
+                    <th scope="col">Customer Email</th>
+
 
                 </tr>
             </thead>
             <tbody>
-                {% for loan in loanrequest %}
+                {% for loan in approvedLoan %}
 
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
@@ -61,23 +61,6 @@
                     <td>{{loan.request_date}}</td>
                     <td>{{loan.year}}</td>
                     <td>{{loan.customer.user.email}}</td>
-
-                    <td>
-
-                        <a href="{% url 'managerApp:approved_request' loan.id  %}">
-                            <button type="button" id="btn-confirm" class="btn btn-success btn-sm px-3">
-                                <i class="fas fa-check"></i>
-                            </button>
-
-                        </a>
-                        <a href="{% url 'managerApp:rejected_request' loan.id  %}">
-                            <button type="button" id="btn-confirm" class="btn btn-danger btn-sm px-3">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-
-                        </a>
-
-                    </td>
 
 
                 </tr>

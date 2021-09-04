@@ -11,6 +11,7 @@ from loanApp.models import loanCategory, loanRequest
 from .forms import LoanCategoryForm
 from loginApp.models import CustomerSignUp
 from django.contrib.auth.models import User
+import datetime
 # Create your views here.
 # Create your views here.
 
@@ -82,7 +83,7 @@ def loan_request(request):
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
 
 
-def approved_loan(request, id):
+def approved_request(request, id):
     approved_customer = loanRequest.objects.get(id=id).customer
     print(approved_customer)
     loanRequest.objects.filter(id=id).update(status='approved')
@@ -90,9 +91,19 @@ def approved_loan(request, id):
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
 
 
-def rejected_loan(request, id):
+def rejected_request(request, id):
     rejected_customer = loanRequest.objects.get(id=id).customer
     print(rejected_customer)
     loanRequest.objects.filter(id=id).update(status='rejected')
     loanrequest = loanRequest.objects.filter(status='pending')
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
+
+
+def approved_loan(request):
+    # print(datetime.now())
+    approvedLoan = loanRequest.objects.filter(status='approved')
+    return render(request, 'admin/approved_loan.html', context={'approvedLoan': approvedLoan})
+
+
+def rejected_loan(request):
+    pass
