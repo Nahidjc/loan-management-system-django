@@ -11,7 +11,8 @@ from loanApp.models import loanCategory, loanRequest
 from .forms import LoanCategoryForm
 from loginApp.models import CustomerSignUp
 from django.contrib.auth.models import User
-import datetime
+from datetime import date
+
 # Create your views here.
 # Create your views here.
 
@@ -106,4 +107,9 @@ def approved_loan(request):
 
 
 def rejected_loan(request):
-    pass
+
+    today = date.today()
+    status_date = today.strftime("%B %d, %Y")
+    print(status_date)
+    rejectedLoan = loanRequest.objects.filter(status='rejected')
+    return render(request, 'admin/approved_loan.html', context={'rejectedLoan': rejectedLoan})
