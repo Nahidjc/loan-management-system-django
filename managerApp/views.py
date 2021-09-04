@@ -88,3 +88,11 @@ def approved_loan(request, id):
     loanRequest.objects.filter(id=id).update(status='approved')
     loanrequest = loanRequest.objects.filter(status='pending')
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
+
+
+def rejected_loan(request, id):
+    rejected_customer = loanRequest.objects.get(id=id).customer
+    print(rejected_customer)
+    loanRequest.objects.filter(id=id).update(status='rejected')
+    loanrequest = loanRequest.objects.filter(status='pending')
+    return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
