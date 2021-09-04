@@ -79,35 +79,56 @@ def user_remove(request, pk):
     # return redirect('managerApp:users')
 
 
+@staff_member_required(login_url='/manager/admin-login')
 def loan_request(request):
     loanrequest = loanRequest.objects.filter(status='pending')
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
 
 
+@staff_member_required(login_url='/manager/admin-login')
 def approved_request(request, id):
     today = date.today()
     status_date = today.strftime("%B %d, %Y")
-
     loan_obj = loanRequest.objects.get(id=id)
     loan_obj.status_date = status_date
     loan_obj.save()
     year = loan_obj.year
 
-    # request customer
     approved_customer = loanRequest.objects.get(id=id).customer
-    # CustomerLoan object create
-    save_loan = CustomerLoan()
+    if CustomerLoan.objects.filter(customer=approved_customer).exists():
+        print("User age loan niche")
+        # find previous amount of customer
+        PreviousAmount = CustomerLoan.objects.get(
+            customer=approved_customer).total_loan
+        PreviousPayable = CustomerLoan.objects.get(
+            customer=approved_customer).payable_loan
+        print(PreviousAmount, PreviousPayable)
 
-    save_loan.customer = approved_customer
-    save_loan.total_loan = int(loan_obj.amount)
-    save_loan.payable_loan = int(loan_obj.amount)+int(loan_obj.amount)*0.2
-    save_loan.save()
+        # update balance
+        CustomerLoan.objects.filter(
+            customer=approved_customer).update(total_loan=int(PreviousAmount)+int(loan_obj.amount))
+        CustomerLoan.objects.filter(
+            customer=approved_customer).update(payable_loan=int(PreviousPayable)+int(loan_obj.amount)+int(loan_obj.amount)*0.12*int(year))
+
+    else:
+        print("user age loan ney nai")
+        # request customer
+
+        # CustomerLoan object create
+        save_loan = CustomerLoan()
+
+        save_loan.customer = approved_customer
+        save_loan.total_loan = int(loan_obj.amount)
+        save_loan.payable_loan = int(
+            loan_obj.amount)+int(loan_obj.amount)*0.12*int(year)
+        save_loan.save()
 
     loanRequest.objects.filter(id=id).update(status='approved')
     loanrequest = loanRequest.objects.filter(status='pending')
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
 
 
+@staff_member_required(login_url='/manager/admin-login')
 def rejected_request(request, id):
 
     today = date.today()
@@ -122,12 +143,14 @@ def rejected_request(request, id):
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
 
 
+@staff_member_required(login_url='/manager/admin-login')
 def approved_loan(request):
     # print(datetime.now())
     approvedLoan = loanRequest.objects.filter(status='approved')
     return render(request, 'admin/approved_loan.html', context={'approvedLoan': approvedLoan})
 
 
+@staff_member_required(login_url='/manager/admin-login')
 def rejected_loan(request):
     rejectedLoan = loanRequest.objects.filter(status='rejected')
     return render(request, 'admin/rejected_loan.html', context={'rejectedLoan': rejectedLoan})
