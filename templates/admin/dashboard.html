@@ -32,7 +32,9 @@
     }
 
     #digit {
-        font-size: 50px;
+        font-size: 60px;
+        font-weight: bold;
+        text-align: end;
     }
 
     .common-section {
@@ -48,47 +50,67 @@
 {% block body_block %}
 
 <div class="container ">
+    <div class="alert alert-primary text-center mb-5" role="alert">
+        <h1>Admin Dashboard</h1>
+    </div>
     <div id="second-part">
         <div class="row">
             <div class="col-md-4 ">
                 <div class="deposit status">
                     <h3>Total Customer</h3>
-                    <h1> <span id="digit">00</span> </h1>
+                    <h1> <span id="digit">{{totalCustomer}}</span> </h1>
                 </div>
 
             </div>
             <div class="col-md-4">
                 <div class="withdraw status">
-                    <h3>Loan Request</h3>
-                    <h1> <span id='digit'>00</span> </h1>
+                    <h3>Request Pending</h3>
+                    <h1> <span id='digit'>{{request}}</span> </h1>
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="bg-info status">
                     <h3>Loan Approved</h3>
-                    <h1><span id="digit">1200</span></h1>
+                    <h1><span id="digit">{{approved}}</span>
+
+                    </h1>
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#95CEFF">
                     <h3>Loan Rejected</h3>
-                    <h1><span id="digit">1200</span></h1>
+                    <h1><span id="digit">{{rejected}}</span></h1>
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#90ED7D">
                     <h3>Total Payable Loan</h3>
-                    <h1><span id="digit">1200</span></h1>
+                    <h1><span id="digit">৳{{totalPayable}}</span></h1>
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#FF7599">
                     <h3>Total Paid Loan</h3>
-                    <h1><span id="digit">৳1200</span></h1>
+                    <h1><span id="digit">৳{{totalLoan}}</span></h1>
+                </div>
+
+            </div>
+            <div class="col-md-4 ">
+                <div class="status" style="background-color:#EF5350">
+                    <h3>Total Paid Loan</h3>
+                    <h1><span id="digit">৳0</span></h1>
+                </div>
+
+            </div>
+
+            <div class="col-md-4 ">
+                <div class="status" style="background-color:#42A5F5">
+                    <h3>Total Due Loan</h3>
+                    <h1><span id="digit">৳0</span></h1>
                 </div>
 
             </div>

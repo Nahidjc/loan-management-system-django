@@ -13,6 +13,7 @@ from loginApp.models import CustomerSignUp
 from django.contrib.auth.models import User
 from datetime import date
 
+from django.db.models import Sum
 # Create your views here.
 # Create your views here.
 
@@ -49,7 +50,17 @@ def superuser_login_view(request):
 # @user_passes_test(lambda u: u.is_superuser)
 @staff_member_required(login_url='/manager/admin-login')
 def dashboard(request):
-    return render(request, 'admin/dashboard.html', context={})
+    dict = {
+        'totalCustomer': CustomerSignUp.objects.all().count(),
+        'request': loanRequest.objects.all().filter(status='pending').count(),
+        'approved': loanRequest.objects.all().filter(status='approved').count(),
+        'rejected': loanRequest.objects.all().filter(status='rejected').count(),
+        'totalLoan': CustomerLoan.objects.aggregate(Sum('total_loan'))['total_loan__sum'],
+        'totalPayable': CustomerLoan.objects.aggregate(Sum('payable_loan'))['payable_loan__sum'],
+
+    }
+    print(dict)
+    return render(request, 'admin/dashboard.html', context=dict)
 
 
 @staff_member_required(login_url='/manager/admin-login')
