@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'loanApp',
     'managerApp',
     'widget_tweaks',
+    'django_cleanup.apps.CleanupConfig',
 
 ]
 

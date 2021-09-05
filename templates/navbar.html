@@ -66,14 +66,14 @@
                     {% if user.is_authenticated %}
 
                     <li>
-                        <a class="dropdown-item" href="{% url 'loanApp:loan_request'%}">Apply Loan</a>
+                        <a class="nav-link" href="{% url 'loanApp:loan_request'%}">Apply Loan</a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{% url 'login_App:edit-customer'%}">Edit Info</a>
+                        <a class="nav-link" href="{% url 'login_App:edit-customer'%}">Edit Info</a>
                     </li>
 
                     <li>
-                        <a class="dropdown-item" href="/account/logout-customer">Logout</a>
+                        <a class="nav-link" href="/account/logout-customer">Logout</a>
                     </li>
                     {% else %}
                     <li class="nav-item me-2">
