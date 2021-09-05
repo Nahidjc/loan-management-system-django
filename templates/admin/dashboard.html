@@ -1,6 +1,6 @@
 {% extends 'admin/adminbase.html' %}
 {% load static %}
-
+{% load mathfilters %}
 {% block css_block %}
 <style>
     #second-part {
@@ -110,7 +110,7 @@
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#42A5F5">
                     <h3>Total Due Loan</h3>
-                    <h1><span id="digit">৳{{totalDue}}</span></h1>
+                    <h1><span id="digit">৳{{ totalPayable|sub:totalPaid }}</span></h1>
                 </div>
 
             </div>

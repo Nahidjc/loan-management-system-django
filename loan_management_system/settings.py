@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'managerApp',
     'widget_tweaks',
     'django_cleanup.apps.CleanupConfig',
+    'mathfilters'
 
 ]
 
