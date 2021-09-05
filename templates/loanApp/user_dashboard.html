@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load mathfilters %}
 {% block css_block %}
 <style>
     #second-part {
@@ -67,35 +67,50 @@
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#a64cf0">
                     <h3>Loan Approved</h3>
-                    <h1><span id="digit">{{request}}</span></h1>
+                    <h1><span id="digit">{{approved}}</span></h1>
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#4c4ff0">
                     <h3>Loan Rejected</h3>
-                    <h1><span id="digit">{{request}}</span></h1>
+                    <h1><span id="digit">{{rejected}}</span></h1>
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#90ED7D">
                     <h3>Payable Loan</h3>
-                    <h1><span id="digit">৳{{totalPayable}}</span></h1>
+
+                    {% if totalPayable %}
+                    <h1><span id="digit">৳{{ totalPayable|sub:0 }}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">৳0</span></h1>
+                    {% endif %}
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#FF7599">
                     <h3>Approved Loan</h3>
-                    <h1><span id="digit">৳{{totalLoan}}</span></h1>
+
+                    {% if totalLoan %}
+                    <h1><span id="digit">৳{{totalLoan|sub:0}}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">৳0</span></h1>
+                    {% endif %}
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#EF5350">
                     <h3>Total Paid Loan</h3>
-                    <h1><span id="digit">৳{{totalPaid}}</span></h1>
+
+                    {% if totalPaid %}
+                    <h1><span id="digit">৳{{totalPaid|sub:0}}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">৳0</span></h1>
+                    {% endif %}
                 </div>
 
             </div>
@@ -103,7 +118,12 @@
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#42A5F5">
                     <h3>Total Due Loan</h3>
-                    <h1><span id="digit">৳{{totalDue}}</span></h1>
+
+                    {% if totalPayable and totalPaid %}
+                    <h1><span id="digit">৳{{ totalPayable|sub:totalPaid }}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">৳0</span></h1>
+                    {% endif %}
                 </div>
 
             </div>
