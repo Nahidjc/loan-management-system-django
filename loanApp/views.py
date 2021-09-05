@@ -58,3 +58,17 @@ def LoanPayment(request):
             return redirect('/')
 
     return render(request, 'loanApp/payment.html', context={'form': form})
+
+
+@login_required(login_url='/account/login-customer')
+def UserTransaction(request):
+    transactions = loanTransaction.objects.filter(
+        customer=request.user.customer)
+    return render(request, 'loanApp/user_transaction.html', context={'transactions': transactions})
+
+
+@login_required(login_url='/account/login-customer')
+def UserLoanHistory(request):
+    loans = loanRequest.objects.filter(
+        customer=request.user.customer)
+    return render(request, 'loanApp/user_transaction.html', context={'loans': loans})
