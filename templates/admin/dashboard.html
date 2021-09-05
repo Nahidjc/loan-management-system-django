@@ -125,8 +125,10 @@
                 <div class="status" style="background-color:#42A5F5">
                     <h3>Total Due Loan</h3>
 
-                    {% if totalPayable or totalPaid %}
+                    {% if totalPayable and totalPaid %}
                     <h1><span id="digit">৳{{ totalPayable|sub:totalPaid }}</span></h1>
+                    {% elif totalPayable %}
+                    <h1><span id="digit">৳{{ totalPayable|sub:0 }}</span></h1>
                     {% else %}
                     <h1><span id="digit">৳0</span></h1>
                     {% endif %}
