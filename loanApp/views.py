@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .forms import LoanRequestForm
-from .models import loanRequest
+from .forms import LoanRequestForm, LoanTransactionForm
+from .models import loanRequest, loanTransaction
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect, HttpResponse
 # Create your views here.
@@ -43,3 +43,18 @@ def LoanRequest(request):
     #     loan_request.customer = request.user.customer
     #     print(loan_request)
     #     return redirect('/')
+
+
+@login_required(login_url='/account/login-customer')
+def LoanPayment(request):
+    form = LoanTransactionForm()
+    if request.method == 'POST':
+        form = LoanTransactionForm(request.POST)
+        if form.is_valid():
+            payment = form.save(commit=False)
+            payment.customer = request.user.customer
+            payment.save()
+            # pay_save = loanTransaction()
+            return redirect('/')
+
+    return render(request, 'loanApp/payment.html', context={'form': form})

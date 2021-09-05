@@ -51,4 +51,4 @@ class loanTransaction(models.Model):
     payment_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.transaction
+        return self.customer.user.username

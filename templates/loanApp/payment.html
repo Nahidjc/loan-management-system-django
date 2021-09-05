@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title_block %}
+User Login
+{% endblock %}
+
+
+{% block body_block %}
+
+{% include 'navbar.html' %}
+<div class="container my-5">
+
+    <div class="row">
+        <div class="p-5 m-auto rounded shadow-lg col-md-4 bg-body">
+            <h3 class="text-center text-success">{{user}} </h3>
+            <form method="POST" class="my-5">
+
+                {% csrf_token %}
+
+
+
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.payment|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Payment amount</label>
+                </div>
+
+                <button type="submit" class="mb-4 btn btn-primary btn-block">Payment</button>
+
+
+
+        </div>
+
+        <!-- Submit button -->
+
+        <!-- Register buttons -->
+
+
+
+
+        </form>
+    </div>
+</div>
+
+
+
+
+
+</div>
+
+{% include "footer.html" %}
+
+{% endblock %}
