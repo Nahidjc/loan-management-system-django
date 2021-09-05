@@ -61,7 +61,8 @@ def dashboard(request):
         Sum('payable_loan'))['payable_loan__sum'],
     totalPaid = loanTransaction.objects.aggregate(Sum('payment'))[
         'payment__sum'],
-    totalDue = int(totalPayable[0])-int(totalPaid[0]),
+    totalDue = totalPayable[0]-totalPaid[0],
+    print(totalPayable[0]-totalPaid[0])
 
     dict = {
         'totalCustomer': totalCustomer[0],
