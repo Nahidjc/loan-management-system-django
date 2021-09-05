@@ -88,21 +88,35 @@
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#90ED7D">
                     <h3>Total Payable Loan</h3>
-                    <h1><span id="digit">৳{{totalPayable|sub:0}}</span></h1>
+
+                    {% if totalPayable %}
+                    <h1><span id="digit">৳{{ totalPayable|sub:0 }}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">৳0</span></h1>
+                    {% endif %}
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#FF7599">
                     <h3>Total Approved Loan</h3>
+
+                    {% if totalLoan %}
                     <h1><span id="digit">৳{{totalLoan|sub:0}}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">৳0</span></h1>
+                    {% endif %}
                 </div>
 
             </div>
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#EF5350">
                     <h3>Total Paid Loan</h3>
+                    {% if totalPaid %}
                     <h1><span id="digit">৳{{totalPaid|sub:0}}</span></h1>
+                    {% else %}
+                    <h1><span id="digit">৳0</span></h1>
+                    {% endif %}
                 </div>
 
             </div>
@@ -111,6 +125,7 @@
                 <div class="status" style="background-color:#42A5F5">
                     <h3>Total Due Loan</h3>
                     <h1><span id="digit">৳{{ totalPayable|sub:totalPaid }}</span></h1>
+
                 </div>
 
             </div>
