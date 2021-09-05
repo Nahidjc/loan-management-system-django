@@ -1,0 +1,75 @@
+{% extends 'admin/adminbase.html' %}
+
+{% load static %}
+
+
+
+
+
+{% block css_block %}
+<style>
+
+</style>
+
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <h1 class="text-center text-primary">Transaction Loan</h1>
+    <div class="my-5 users">
+
+
+
+        <table class="table text-center table-light table-hover table-bordered table-striped">
+            <thead class="bg-dark ">
+                <tr class="text-dark ">
+                    <th scope="col">SL</th>
+
+                    <th scope="col">User ID</th>
+                    <th scope="col">Username</th>
+
+                    <th scope="col">Payment Amount</th>
+                    <th scope="col">Transaction ID</th>
+                    <th scope="col">Date</th>
+
+                    <th scope="col">Customer Email</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in transactions %}
+
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+
+                    <td>{{loan.customer.id}}</td>
+                    <td>{{loan.customer}}</td>
+
+
+                    <td>{{loan.payment}} Tk</td>
+                    <td>{{loan.transaction}}</td>
+                    <td>{{loan.payment_date}}</td>
+                    <td>{{loan.customer.user.email}}</td>
+
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}

@@ -17,6 +17,7 @@ urlpatterns = [
          views.rejected_request, name='rejected_request'),
     path('approved-loan',  views.approved_loan, name='approved_loan'),
     path('rejected-loan', views.rejected_loan, name='rejected_loan'),
+    path('transaction-loan', views.transaction_loan, name='transaction_loan'),
 
 
 ]

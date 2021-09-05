@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
-from loanApp.models import loanCategory, loanRequest, CustomerLoan
+from loanApp.models import loanCategory, loanRequest, CustomerLoan, loanTransaction
 from .forms import LoanCategoryForm
 from loginApp.models import CustomerSignUp
 from django.contrib.auth.models import User
@@ -165,3 +165,8 @@ def approved_loan(request):
 def rejected_loan(request):
     rejectedLoan = loanRequest.objects.filter(status='rejected')
     return render(request, 'admin/rejected_loan.html', context={'rejectedLoan': rejectedLoan})
+
+
+def transaction_loan(request):
+    transactions = loanTransaction.objects.all()
+    return render(request, 'admin/transaction.html', context={'transactions': transactions})
