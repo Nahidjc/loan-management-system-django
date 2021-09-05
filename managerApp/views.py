@@ -50,13 +50,28 @@ def superuser_login_view(request):
 # @user_passes_test(lambda u: u.is_superuser)
 @staff_member_required(login_url='/manager/admin-login')
 def dashboard(request):
+
+    totalCustomer = CustomerSignUp.objects.all().count(),
+    requestLoan = loanRequest.objects.all().filter(status='pending').count(),
+    approved = loanRequest.objects.all().filter(status='approved').count(),
+    rejected = loanRequest.objects.all().filter(status='rejected').count(),
+    totalLoan = CustomerLoan.objects.aggregate(Sum('total_loan'))[
+        'total_loan__sum'],
+    totalPayable = CustomerLoan.objects.aggregate(
+        Sum('payable_loan'))['payable_loan__sum'],
+    totalPaid = loanTransaction.objects.aggregate(Sum('payment'))[
+        'payment__sum'],
+    totalDue = int(totalPayable[0])-int(totalPaid[0]),
+
     dict = {
-        'totalCustomer': CustomerSignUp.objects.all().count(),
-        'request': loanRequest.objects.all().filter(status='pending').count(),
-        'approved': loanRequest.objects.all().filter(status='approved').count(),
-        'rejected': loanRequest.objects.all().filter(status='rejected').count(),
-        'totalLoan': CustomerLoan.objects.aggregate(Sum('total_loan'))['total_loan__sum'],
-        'totalPayable': CustomerLoan.objects.aggregate(Sum('payable_loan'))['payable_loan__sum'],
+        'totalCustomer': totalCustomer[0],
+        'request': requestLoan[0],
+        'approved': approved[0],
+        'rejected': rejected[0],
+        'totalLoan': totalLoan[0],
+        'totalPayable': totalPayable[0],
+        'totalPaid': totalPaid[0],
+        'totalDue': totalDue[0],
 
     }
     print(dict)
@@ -167,6 +182,7 @@ def rejected_loan(request):
     return render(request, 'admin/rejected_loan.html', context={'rejectedLoan': rejectedLoan})
 
 
+@staff_member_required(login_url='/manager/admin-login')
 def transaction_loan(request):
     transactions = loanTransaction.objects.all()
     return render(request, 'admin/transaction.html', context={'transactions': transactions})

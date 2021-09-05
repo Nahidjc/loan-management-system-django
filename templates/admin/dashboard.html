@@ -50,7 +50,7 @@
 {% block body_block %}
 
 <div class="container ">
-    <div class="alert alert-primary text-center mb-5" role="alert">
+    <div class="mb-5 text-center alert alert-primary" role="alert">
         <h1>Admin Dashboard</h1>
     </div>
     <div id="second-part">
@@ -102,7 +102,7 @@
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#EF5350">
                     <h3>Total Paid Loan</h3>
-                    <h1><span id="digit">৳0</span></h1>
+                    <h1><span id="digit">৳{{totalPaid}}</span></h1>
                 </div>
 
             </div>
@@ -110,7 +110,7 @@
             <div class="col-md-4 ">
                 <div class="status" style="background-color:#42A5F5">
                     <h3>Total Due Loan</h3>
-                    <h1><span id="digit">৳0</span></h1>
+                    <h1><span id="digit">৳{{totalDue}}</span></h1>
                 </div>
 
             </div>
