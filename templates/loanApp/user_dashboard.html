@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_block %}
+<style>
+    #second-part {
+        margin: auto;
+    }
+
+
+    .status {
+        border-radius: 10px;
+        color: white;
+        margin: 10px 20px;
+        padding: 20px;
+    }
+
+    .deposit {
+
+        background-color: slateblue;
+    }
+
+    .withdraw {
+
+        background-color: lightsalmon;
+
+    }
+
+    .balance {
+
+        background-color: rgb(231, 198, 6);
+    }
+
+    #digit {
+        font-size: 60px;
+        font-weight: bold;
+        text-align: end;
+    }
+
+    .common-section {
+        padding: 30px;
+        margin: 50px 20px;
+        box-shadow: 0 0 10px;
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}
+
+
+{% block body_block %}
+{% include 'navbar.html' %}
+<div class="container p-5 my-5">
+    <div class="p-5 m-4 text-center alert alert-primary" role="alert">
+        <h1>User Dashboard</h1>
+    </div>
+    <div id="second-part">
+        <div class="row">
+
+
+            <div class="col-md-4 ">
+                <div class="status" style="background-color:#4ea4f0">
+                    <h3>Loan Request</h3>
+                    <h1><span id="digit">{{request}}</span></h1>
+                </div>
+
+            </div>
+            <div class="col-md-4 ">
+                <div class="status" style="background-color:#a64cf0">
+                    <h3>Loan Approved</h3>
+                    <h1><span id="digit">{{request}}</span></h1>
+                </div>
+
+            </div>
+            <div class="col-md-4 ">
+                <div class="status" style="background-color:#4c4ff0">
+                    <h3>Loan Rejected</h3>
+                    <h1><span id="digit">{{request}}</span></h1>
+                </div>
+
+            </div>
+            <div class="col-md-4 ">
+                <div class="status" style="background-color:#90ED7D">
+                    <h3>Payable Loan</h3>
+                    <h1><span id="digit">৳{{totalPayable}}</span></h1>
+                </div>
+
+            </div>
+            <div class="col-md-4 ">
+                <div class="status" style="background-color:#FF7599">
+                    <h3>Approved Loan</h3>
+                    <h1><span id="digit">৳{{totalLoan}}</span></h1>
+                </div>
+
+            </div>
+            <div class="col-md-4 ">
+                <div class="status" style="background-color:#EF5350">
+                    <h3>Total Paid Loan</h3>
+                    <h1><span id="digit">৳{{totalPaid}}</span></h1>
+                </div>
+
+            </div>
+
+            <div class="col-md-4 ">
+                <div class="status" style="background-color:#42A5F5">
+                    <h3>Total Due Loan</h3>
+                    <h1><span id="digit">৳{{totalDue}}</span></h1>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+{% endblock %}

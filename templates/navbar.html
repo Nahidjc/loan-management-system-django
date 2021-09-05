@@ -42,12 +42,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">HOME</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Team</a>
-                    </li>
+
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Loan History</a>
+                        <a class="nav-link" href="/loan/user-dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/loan/user-loan-history">Loan History</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'loanApp:loan_payment' %}">Pay Loan</a>
