@@ -13,21 +13,20 @@ from django.contrib.auth.models import User
 def sign_up_view(request):
     error = ''
     if request.user.is_authenticated:
-        print("Already login")
+
         return HttpResponseRedirect(reverse('home'))
 
     form = CustomerSignUpForm()
     if request.method == 'POST':
-        print("sign up korte chay")
+
         form = CustomerSignUpForm(request.POST)
         # print(form.cleaned_data['username'])
         if form.is_valid():
             user = form.save()
-            print(user)
-            print("valid form")
+
             user_profile = CustomerSignUp(user=user)
             user_profile.save()
-            print(user_profile)
+
             return HttpResponseRedirect(reverse('login_App:login_customer'))
 
         else:
@@ -50,7 +49,7 @@ def login_view(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            print('Username: %s Password: %s' % (username, password))
+
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -72,7 +71,7 @@ def edit_customer(request):
     customer = CustomerSignUp.objects.get(user=request.user)
     form = UpdateCustomerForm(instance=customer)
     if request.method == 'POST':
-        print(form)
+
         form = UpdateCustomerForm(
             request.POST, request.FILES, instance=customer)
         if form.is_valid:

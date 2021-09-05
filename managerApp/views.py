@@ -42,7 +42,7 @@ def superuser_login_view(request):
                         return render(request, 'admin/adminLogin.html', context={'form': form, 'error': "You are not Super User"})
 
             else:
-                print("invalid password")
+
                 return render(request, 'admin/adminLogin.html', context={'form': form, 'error': "Invalid Username or Password "})
     return render(request, 'admin/adminLogin.html', context={'form': form, 'user': "Admin Login"})
 
@@ -74,7 +74,7 @@ def dashboard(request):
         'totalDue': totalDue[0],
 
     }
-    print(dict)
+
     return render(request, 'admin/dashboard.html', context=dict)
 
 
@@ -122,13 +122,12 @@ def approved_request(request, id):
 
     approved_customer = loanRequest.objects.get(id=id).customer
     if CustomerLoan.objects.filter(customer=approved_customer).exists():
-        print("User age loan niche")
+
         # find previous amount of customer
         PreviousAmount = CustomerLoan.objects.get(
             customer=approved_customer).total_loan
         PreviousPayable = CustomerLoan.objects.get(
             customer=approved_customer).payable_loan
-        print(PreviousAmount, PreviousPayable)
 
         # update balance
         CustomerLoan.objects.filter(
@@ -137,7 +136,7 @@ def approved_request(request, id):
             customer=approved_customer).update(payable_loan=int(PreviousPayable)+int(loan_obj.amount)+int(loan_obj.amount)*0.12*int(year))
 
     else:
-        print("user age loan ney nai")
+
         # request customer
 
         # CustomerLoan object create

@@ -17,12 +17,12 @@ def home(request):
 
 @login_required(login_url='/account/login-customer')
 def LoanRequest(request):
-    print(request.user)
+
     form = LoanRequestForm()
 
     if request.method == 'POST':
         form = LoanRequestForm(request.POST)
-        print(form)
+
         if form.is_valid():
             loan_obj = form.save(commit=False)
             loan_obj.customer = request.user.customer
@@ -101,5 +101,10 @@ def UserDashboard(request):
         'totalDue': totalDue[0],
 
     }
-    print(dict)
+
     return render(request, 'loanApp/user_dashboard.html', context=dict)
+
+
+def error_404_view(request, exception):
+    print("not found")
+    return render(request, 'notFound.html')
