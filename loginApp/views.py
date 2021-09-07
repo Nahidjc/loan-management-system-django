@@ -26,6 +26,13 @@ def sign_up_view(request):
 
             user_profile = CustomerSignUp(user=user)
             user_profile.save()
+            username = form.cleaned_data['username']
+            password1 = form.cleaned_data['password1']
+            print(username,password1)
+            user = authenticate(request, username=username, password=password1)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect(reverse('home'))
 
             return HttpResponseRedirect(reverse('login_App:login_customer'))
 
@@ -34,7 +41,8 @@ def sign_up_view(request):
                 error = 'customer already exists'
 
             else:
-                error = 'both password must be same'
+                error = 'Your password is not strong enough or both password must be same'
+        
 
     return render(request, 'loginApp/signup.html', context={'form': form, 'user': "Customer Register", 'error': error})
 
