@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: bootstrap4
+Version: 0.1.0
+Summary: Bootstrap 4, packaged for Python.
+Home-page: https://github.com/encode/bootstrap4
+Author: Tom Christie
+Author-email: tom@tomchristie.com
+License: BSD
+Description: Bootstrap 4, packaged for Python.
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Description-Content-Type: text/markdown

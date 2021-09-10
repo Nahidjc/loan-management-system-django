@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
 import django_heroku
-import  dj_database_url
+import dj_database_url
 from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -36,7 +36,10 @@ INSTALLED_APPS = [
     'managerApp',
     'widget_tweaks',
     'django_cleanup.apps.CleanupConfig',
+    'bootstrap4',
     'mathfilters'
+    # 'mathfiltersbootstrap5'
+
 
 ]
 
@@ -48,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'loan_management_system.urls'
