@@ -12,6 +12,7 @@ done here with the ORM, so this layer is only partly decoupled from it.
 from datetime import date
 
 from django.contrib.auth import authenticate
+from django.db import transaction
 
 from loanApp.models import CustomerLoan, loanRequest
 
@@ -51,6 +52,11 @@ def _stamp_status_date(loan):
     loan.save()
 
 
+def _set_status(loan_id, status):
+    loanRequest.objects.filter(id=loan_id).update(status=status)
+
+
+@transaction.atomic
 def approve_loan(loan_id):
     """Approve a loan request and add it to the customer's balance.
 
@@ -58,6 +64,9 @@ def approve_loan(loan_id):
     created; a customer with a balance has the amount (and amount plus
     interest) added to it. Fractions of a unit are truncated, because the
     balance columns are integer fields.
+
+    Runs in ONE database transaction: the date stamp, the balance change and
+    the status change all succeed together or none of them is saved.
     """
     loan = get_loan_request(loan_id)
     _stamp_status_date(loan)
@@ -78,14 +87,15 @@ def approve_loan(loan_id):
             total_loan=amount,
             payable_loan=int(amount + interest))
 
-    loanRequest.objects.filter(id=loan_id).update(status=Status.APPROVED)
+    _set_status(loan_id, Status.APPROVED)
 
 
+@transaction.atomic
 def reject_loan(loan_id):
     """Reject a loan request. No balance is created or changed."""
     loan = get_loan_request(loan_id)
     _stamp_status_date(loan)
-    loanRequest.objects.filter(id=loan_id).update(status=Status.REJECTED)
+    _set_status(loan_id, Status.REJECTED)
 
 
 # --- user management --------------------------------------------------------

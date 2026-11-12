@@ -8,6 +8,7 @@ approving the same loan twice adds the amount twice), the test records what
 the code does now, so any change in behaviour is a conscious decision.
 """
 from datetime import date
+from unittest import mock
 
 from django.contrib.auth.models import User
 from django.test import TestCase, override_settings
@@ -15,6 +16,7 @@ from django.urls import reverse
 
 from loanApp.models import CustomerLoan, loanCategory, loanRequest, loanTransaction
 from loginApp.models import CustomerSignUp
+from managerApp import services
 
 LOGIN_URL = '/manager/admin-login'
 
@@ -266,3 +268,35 @@ class AddCategoryTests(ManagerTestBase):
                                     {'loan_name': ''})
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context['form'].errors)
+
+
+class ApprovalAtomicityTests(ManagerTestBase):
+    """Approval changes several rows. It must succeed completely or not at all."""
+
+    def test_failure_after_balance_update_rolls_everything_back(self):
+        loan = self.new_request(amount=1000, year=2)
+        CustomerLoan.objects.create(customer=self.customer,
+                                    total_loan=500, payable_loan=600)
+
+        # Simulate a crash at the LAST step, after the balance was changed.
+        with mock.patch('managerApp.services._set_status',
+                        side_effect=RuntimeError('boom')):
+            with self.assertRaises(RuntimeError):
+                services.approve_loan(loan.id)
+
+        balance = CustomerLoan.objects.get(customer=self.customer)
+        self.assertEqual((balance.total_loan, balance.payable_loan), (500, 600))
+        loan.refresh_from_db()
+        self.assertEqual(loan.status, 'pending')
+        self.assertIsNone(loan.status_date)
+
+    def test_failure_for_new_customer_creates_no_balance(self):
+        loan = self.new_request(amount=1000, year=2)
+
+        with mock.patch('managerApp.services._set_status',
+                        side_effect=RuntimeError('boom')):
+            with self.assertRaises(RuntimeError):
+                services.approve_loan(loan.id)
+
+        self.assertFalse(CustomerLoan.objects.filter(
+            customer=self.customer).exists())
