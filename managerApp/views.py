@@ -1,15 +1,22 @@
+"""
+HTTP layer for managerApp.
+
+Each view only: checks access, reads the request, calls a service (to change
+data) or a selector (to read data), and renders a template. Business rules
+live in services.py, queries in selectors.py, literals in constants.py.
+"""
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login
-from django.db.models import Sum
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from loanApp.models import CustomerLoan, loanRequest, loanTransaction
-from loginApp.models import CustomerSignUp
-
-from .constants import Endpoints, Messages, Status, Templates
+from .constants import Endpoints, Messages, Templates
 from .forms import AdminLoginForm, LoanCategoryForm
+from .selectors import (
+    get_all_customers, get_all_transactions, get_approved_requests,
+    get_dashboard_stats, get_pending_requests, get_rejected_requests,
+)
 from .services import (
     approve_loan, authenticate_superuser, reject_loan, remove_customer,
 )
@@ -17,9 +24,8 @@ from .services import (
 
 def _pending_requests_page(request):
     """Render the pending-requests page (shown after approve and reject)."""
-    pending = loanRequest.objects.filter(status=Status.PENDING)
     return render(request, Templates.REQUEST_USER,
-                  context={'loanrequest': pending})
+                  context={'loanrequest': get_pending_requests()})
 
 
 def superuser_login_view(request):
@@ -52,31 +58,7 @@ def superuser_login_view(request):
 
 @staff_member_required(login_url=Endpoints.LOGIN_URL)
 def dashboard(request):
-
-    totalCustomer = CustomerSignUp.objects.all().count(),
-    requestLoan = loanRequest.objects.all().filter(status=Status.PENDING).count(),
-    approved = loanRequest.objects.all().filter(status=Status.APPROVED).count(),
-    rejected = loanRequest.objects.all().filter(status=Status.REJECTED).count(),
-    totalLoan = CustomerLoan.objects.aggregate(Sum('total_loan'))[
-        'total_loan__sum'],
-    totalPayable = CustomerLoan.objects.aggregate(
-        Sum('payable_loan'))['payable_loan__sum'],
-    totalPaid = loanTransaction.objects.aggregate(Sum('payment'))[
-        'payment__sum'],
-
-    dict = {
-        'totalCustomer': totalCustomer[0],
-        'request': requestLoan[0],
-        'approved': approved[0],
-        'rejected': rejected[0],
-        'totalLoan': totalLoan[0],
-        'totalPayable': totalPayable[0],
-        'totalPaid': totalPaid[0],
-
-    }
-    print(dict)
-
-    return render(request, Templates.DASHBOARD, context=dict)
+    return render(request, Templates.DASHBOARD, context=get_dashboard_stats())
 
 
 @staff_member_required(login_url=Endpoints.LOGIN_URL)
@@ -92,9 +74,8 @@ def add_category(request):
 
 @staff_member_required(login_url=Endpoints.LOGIN_URL)
 def total_users(request):
-    users = CustomerSignUp.objects.all()
-
-    return render(request, Templates.CUSTOMERS, context={'users': users})
+    return render(request, Templates.CUSTOMERS,
+                  context={'users': get_all_customers()})
 
 
 @staff_member_required(login_url=Endpoints.LOGIN_URL)
@@ -105,8 +86,7 @@ def user_remove(request, pk):
 
 @staff_member_required(login_url=Endpoints.LOGIN_URL)
 def loan_request(request):
-    loanrequest = loanRequest.objects.filter(status=Status.PENDING)
-    return render(request, Templates.REQUEST_USER, context={'loanrequest': loanrequest})
+    return _pending_requests_page(request)
 
 
 @staff_member_required(login_url=Endpoints.LOGIN_URL)
@@ -123,17 +103,17 @@ def rejected_request(request, id):
 
 @staff_member_required(login_url=Endpoints.LOGIN_URL)
 def approved_loan(request):
-    approvedLoan = loanRequest.objects.filter(status=Status.APPROVED)
-    return render(request, Templates.APPROVED_LOAN, context={'approvedLoan': approvedLoan})
+    return render(request, Templates.APPROVED_LOAN,
+                  context={'approvedLoan': get_approved_requests()})
 
 
 @staff_member_required(login_url=Endpoints.LOGIN_URL)
 def rejected_loan(request):
-    rejectedLoan = loanRequest.objects.filter(status=Status.REJECTED)
-    return render(request, Templates.REJECTED_LOAN, context={'rejectedLoan': rejectedLoan})
+    return render(request, Templates.REJECTED_LOAN,
+                  context={'rejectedLoan': get_rejected_requests()})
 
 
 @staff_member_required(login_url=Endpoints.LOGIN_URL)
 def transaction_loan(request):
-    transactions = loanTransaction.objects.all()
-    return render(request, Templates.TRANSACTION, context={'transactions': transactions})
+    return render(request, Templates.TRANSACTION,
+                  context={'transactions': get_all_transactions()})
