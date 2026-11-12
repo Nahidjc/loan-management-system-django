@@ -3,6 +3,8 @@ import os
 import django_heroku
 import dj_database_url
 from decouple import config
+from django.core.exceptions import ImproperlyConfigured
+from django.core.management.utils import get_random_secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,12 +15,31 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0k7(=3xy503l5nio^)k29b1ryxyfm)r%k)))4xqq3li4)og%9c'
+# Secrets and environment-specific values come from the environment (or a
+# local .env file, read by python-decouple). Nothing secret is committed.
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = ['loanmanagement-nahid.herokuapp.com']
+# Defaults to False so a forgotten setting fails safe.
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config('SECRET_KEY', default='')
+if not SECRET_KEY:
+    if DEBUG:
+        # Development only: a throw-away key, different on every start.
+        SECRET_KEY = get_random_secret_key()
+    else:
+        raise ImproperlyConfigured(
+            'SECRET_KEY is not set. Set it in the environment or in .env '
+            '(see .env.example).')
+
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS', default='loanmanagement-nahid.herokuapp.com',
+    cast=lambda value: [h.strip() for h in value.split(',') if h.strip()])
+
+# Cookies are only sent over HTTPS outside development.
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
 
 # Application definition

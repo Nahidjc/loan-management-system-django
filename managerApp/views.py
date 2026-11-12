@@ -1,186 +1,119 @@
-from django.shortcuts import render
-from django.contrib.auth import authenticate, login, logout
-from managerApp.forms import AdminLoginForm
-from django.shortcuts import redirect
-from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.decorators import user_passes_test
-from loanApp.models import loanCategory, loanRequest, CustomerLoan, loanTransaction
-from .forms import LoanCategoryForm
-from loginApp.models import CustomerSignUp
-from django.contrib.auth.models import User
-from datetime import date
+"""
+HTTP layer for managerApp.
 
-from django.db.models import Sum
-# Create your views here.
-# Create your views here.
+Each view only: checks access, reads the request, calls a service (to change
+data) or a selector (to read data), and renders a template. Business rules
+live in services.py, queries in selectors.py, literals in constants.py.
+"""
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import login
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse
+
+from .constants import Endpoints, Messages, Templates
+from .forms import AdminLoginForm, LoanCategoryForm
+from .selectors import (
+    get_all_customers, get_all_transactions, get_approved_requests,
+    get_dashboard_stats, get_pending_requests, get_rejected_requests,
+)
+from .services import (
+    approve_loan, authenticate_superuser, reject_loan, remove_customer,
+)
+
+
+def _pending_requests_page(request):
+    """Render the pending-requests page (shown after approve and reject)."""
+    return render(request, Templates.REQUEST_USER,
+                  context={'loanrequest': get_pending_requests()})
 
 
 def superuser_login_view(request):
     form = AdminLoginForm()
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('home'))
-    else:
-        if request.method == 'POST':
-            form = AdminLoginForm(data=request.POST)
+        return HttpResponseRedirect(reverse(Endpoints.HOME))
 
-            if form.is_valid():
-                username = form.cleaned_data['username']
-                password = form.cleaned_data['password']
+    if request.method == 'POST':
+        form = AdminLoginForm(data=request.POST)
 
-                user = authenticate(
-                    request, username=username, password=password)
+        if form.is_valid():
+            user, error = authenticate_superuser(
+                request,
+                form.cleaned_data['username'],
+                form.cleaned_data['password'])
 
-                if user is not None:
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect(reverse(Endpoints.DASHBOARD))
+            if error:
+                return render(request, Templates.ADMIN_LOGIN,
+                              context={'form': form, 'error': error})
+        else:
+            return render(request, Templates.ADMIN_LOGIN,
+                          context={'form': form,
+                                   'error': Messages.INVALID_LOGIN})
+    return render(request, Templates.ADMIN_LOGIN,
+                  context={'form': form, 'user': "Admin Login"})
 
-                    if user.is_superuser:
-                        login(request, user)
-                        return HttpResponseRedirect(reverse('managerApp:dashboard'))
-                    else:
-                        return render(request, 'admin/adminLogin.html', context={'form': form, 'error': "You are not Super User"})
 
-            else:
-
-                return render(request, 'admin/adminLogin.html', context={'form': form, 'error': "Invalid Username or Password "})
-    return render(request, 'admin/adminLogin.html', context={'form': form, 'user': "Admin Login"})
-
-
-# @user_passes_test(lambda u: u.is_superuser)
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def dashboard(request):
-
-    totalCustomer = CustomerSignUp.objects.all().count(),
-    requestLoan = loanRequest.objects.all().filter(status='pending').count(),
-    approved = loanRequest.objects.all().filter(status='approved').count(),
-    rejected = loanRequest.objects.all().filter(status='rejected').count(),
-    totalLoan = CustomerLoan.objects.aggregate(Sum('total_loan'))[
-        'total_loan__sum'],
-    totalPayable = CustomerLoan.objects.aggregate(
-        Sum('payable_loan'))['payable_loan__sum'],
-    totalPaid = loanTransaction.objects.aggregate(Sum('payment'))[
-        'payment__sum'],
-
-    dict = {
-        'totalCustomer': totalCustomer[0],
-        'request': requestLoan[0],
-        'approved': approved[0],
-        'rejected': rejected[0],
-        'totalLoan': totalLoan[0],
-        'totalPayable': totalPayable[0],
-        'totalPaid': totalPaid[0],
-
-    }
-    print(dict)
-
-    return render(request, 'admin/dashboard.html', context=dict)
+    return render(request, Templates.DASHBOARD, context=get_dashboard_stats())
 
 
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def add_category(request):
     form = LoanCategoryForm()
     if request.method == 'POST':
         form = LoanCategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('managerApp:dashboard')
-    return render(request, 'admin/admin_add_category.html', {'form': form})
+            return redirect(Endpoints.DASHBOARD)
+    return render(request, Templates.ADD_CATEGORY, {'form': form})
 
 
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def total_users(request):
-    users = CustomerSignUp.objects.all()
+    return render(request, Templates.CUSTOMERS,
+                  context={'users': get_all_customers()})
 
-    return render(request, 'admin/customer.html', context={'users': users})
 
-
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def user_remove(request, pk):
-    CustomerSignUp.objects.get(id=pk).delete()
-    user = User.objects.get(id=pk)
-    user.delete()
-    return HttpResponseRedirect('/manager/users')
-    # return redirect('managerApp:users')
+    remove_customer(pk)
+    return HttpResponseRedirect(Endpoints.USERS_REDIRECT)
 
 
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def loan_request(request):
-    loanrequest = loanRequest.objects.filter(status='pending')
-    return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
+    return _pending_requests_page(request)
 
 
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def approved_request(request, id):
-    today = date.today()
-    status_date = today.strftime("%B %d, %Y")
-    loan_obj = loanRequest.objects.get(id=id)
-    loan_obj.status_date = status_date
-    loan_obj.save()
-    year = loan_obj.year
-
-    approved_customer = loanRequest.objects.get(id=id).customer
-    if CustomerLoan.objects.filter(customer=approved_customer).exists():
-
-        # find previous amount of customer
-        PreviousAmount = CustomerLoan.objects.get(
-            customer=approved_customer).total_loan
-        PreviousPayable = CustomerLoan.objects.get(
-            customer=approved_customer).payable_loan
-
-        # update balance
-        CustomerLoan.objects.filter(
-            customer=approved_customer).update(total_loan=int(PreviousAmount)+int(loan_obj.amount))
-        CustomerLoan.objects.filter(
-            customer=approved_customer).update(payable_loan=int(PreviousPayable)+int(loan_obj.amount)+int(loan_obj.amount)*0.12*int(year))
-
-    else:
-
-        # request customer
-
-        # CustomerLoan object create
-        save_loan = CustomerLoan()
-
-        save_loan.customer = approved_customer
-        save_loan.total_loan = int(loan_obj.amount)
-        save_loan.payable_loan = int(
-            loan_obj.amount)+int(loan_obj.amount)*0.12*int(year)
-        save_loan.save()
-
-    loanRequest.objects.filter(id=id).update(status='approved')
-    loanrequest = loanRequest.objects.filter(status='pending')
-    return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
+    approve_loan(id)
+    return _pending_requests_page(request)
 
 
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def rejected_request(request, id):
-
-    today = date.today()
-    status_date = today.strftime("%B %d, %Y")
-    loan_obj = loanRequest.objects.get(id=id)
-    loan_obj.status_date = status_date
-    loan_obj.save()
-    # rejected_customer = loanRequest.objects.get(id=id).customer
-    # print(rejected_customer)
-    loanRequest.objects.filter(id=id).update(status='rejected')
-    loanrequest = loanRequest.objects.filter(status='pending')
-    return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
+    reject_loan(id)
+    return _pending_requests_page(request)
 
 
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def approved_loan(request):
-    # print(datetime.now())
-    approvedLoan = loanRequest.objects.filter(status='approved')
-    return render(request, 'admin/approved_loan.html', context={'approvedLoan': approvedLoan})
+    return render(request, Templates.APPROVED_LOAN,
+                  context={'approvedLoan': get_approved_requests()})
 
 
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def rejected_loan(request):
-    rejectedLoan = loanRequest.objects.filter(status='rejected')
-    return render(request, 'admin/rejected_loan.html', context={'rejectedLoan': rejectedLoan})
+    return render(request, Templates.REJECTED_LOAN,
+                  context={'rejectedLoan': get_rejected_requests()})
 
 
-@staff_member_required(login_url='/manager/admin-login')
+@staff_member_required(login_url=Endpoints.LOGIN_URL)
 def transaction_loan(request):
-    transactions = loanTransaction.objects.all()
-    return render(request, 'admin/transaction.html', context={'transactions': transactions})
+    return render(request, Templates.TRANSACTION,
+                  context={'transactions': get_all_transactions()})
